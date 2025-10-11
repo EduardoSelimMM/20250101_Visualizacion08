@@ -1,0 +1,262 @@
+---
+title: "Mi notebook favorito"
+author: "Eduardo Martinez"
+date: "2025-10-11"
+output: html_document
+---
+
+Ya dijimos que con RMarkdown se pueden hacer notebooks de trabajo en los que se puede incluir español (texto), matemáticas (LaTeX) y código.
+
++ Podemos incluir hiperlinks de manera más "limpia"
+
+Podemos ir al fabuloso link de la [Facultad de Ciencias](https://www.fciencias.unam.mx/)
+
+Se puede insertar rápidamente chunks de código a tu documento:
+
+* El atajo de teclado **Ctrl + Alt + I** (en **OS X:** Cmd + Alt + I)
+* El comando **Add Chunk** o **Instert Chunk** en la barra de herramientas del editor
+
+La salida de un *chunk* puede personalizarse mediante las **opciones de knitr**, es decir, los argumentos que se establecen dentro de las llaves `{}` del encabezado de un *chunk*.
+
+* **include = FALSE** evita que el código y los resultados aparezcan en el archivo final. R Markdown aún ejecuta el código dentro del *chunk*, y los resultados pueden ser usados por otros *chunks*.
+* **echo = FALSE** evita que el código, pero no los resultados, aparezcan en el archivo final. Es una forma útil de insertar figuras.
+* **message = FALSE** evita que los mensajes generados por el código aparezcan en el archivo final.
+* **warning = FALSE** evita que las advertencias generadas por el código aparezcan en el archivo final.
+* **fig.cap = "..."** agrega un pie de figura (caption) a los resultados gráficos.
+* y hay otras opciones que iremos viendo poco a poco...
+
+```{r include=FALSE}
+mis_datos <- iris
+mis_datos |> head()
+```
+
+Existe un dateset muy popular que se utilizará a lo largo del código, las columnas de este dataset son:
+
+```{r}
+mis_datos |> names()
+```
+
+Aunque se vería un poco mejor así: Existe un dateset muy popular que se utilizará a lo largo del código, las columnas de este dataset son:
+
+```{r echo=FALSE}
+mis_datos |> names()
+```
+
+Para establecer opciones globales que se apliquen a todos los *chunks* del archivo, se usa `knitr::opts_chunk$set` dentro de un *chunk* de código.
+
+**Knitr** tratará cada opción que pases a `knitr::opts_chunk$set` como un valor predeterminado global, el cual puede ser sobrescrito en los encabezados de *chunks* individuales.
+
+```{r include=FALSE}
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+```
+
+```{r fig.cap="El caption de mi fabulosa gráfica", echo=FALSE}
+mis_datos |> ggplot() +
+  geom_point(aes(x = Sepal.Length, y = Sepal.Width))
+```
+
+Se puede notar que no hay ....
+
+
+```{r fig.cap="El caption de mi fabulosa gráfica", fig.align='center', echo=FALSE}
+mis_datos |> ggplot() +
+  geom_point(aes(x = Sepal.Length, y = Sepal.Width))
+```
+
+Se puede notar que no hay ....
+
+
+```{r}
+mis_datos |> head() |> knitr::kable(caption = "Una tabla sencilla")
+```
+
+```{r}
+df1 <- mis_datos |> head()
+df2 <- mis_datos |> tail(n = 4)
+```
+
+```{r}
+list(df1, df2) |> knitr::kable(caption = "Dos tablas juntas")
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(lightable_options = "hover",
+                                                full_width = F)
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(lightable_options = "striped",
+                                                full_width = F)
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(lightable_options = "hover",
+                                                full_width = F,
+                                                html_font = 'helvetica')
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_classic(lightable_options = "hover",
+                                                full_width = F,
+                                                html_font = 'helvetica')
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_classic_2(lightable_options = "hover",
+                                                full_width = F,
+                                                html_font = 'helvetica')
+```
+
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_minimal(lightable_options = "hover",
+                                                full_width = F,
+                                                html_font = 'helvetica')
+```
+
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_material_dark(lightable_options = "hover",
+                                                full_width = F,
+                                                html_font = 'helvetica')
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(lightable_options = "striped",
+                                                full_width = F, position = "left")
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(lightable_options = "striped",
+                                                full_width = F,
+                                                position = "float_right")
+```
+
+¿Y para qué querríamos esto?
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(lightable_options = "striped",
+                                                full_width = F,
+                                                position = "float_right")
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(lightable_options = "hover",
+                                                full_width = F,
+                                                html_font = 'helvetica',
+                                                font_size = 8)
+```
+
+```{r}
+mis_datos |> head(n=25) |> kbl() |> kable_paper(lightable_options = "hover",
+                                                full_width = F,
+                                                html_font = 'helvetica',
+                                                font_size = 14,
+                                                fixed_thead = T)
+```
+
+```{r}
+tabla_con_texto <- data.frame(
+  renglones = c("Renglón 1", "Renglón 2", "Renglón 3", "Renglón 4"),
+  texto = c("Entre los individuos, como entre las naciones, el respeto al derecho ajeno es la paz", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula tempor ex. Morbi malesuada sagittis turpis, at venenatis nisl luctus a. ", "In eu urna at magna luctus rhoncus quis in nisl. Fusce in velit varius, posuere risus et, cursus augue. Duis eleifend aliquam ante, a aliquet ex tincidunt in. ", "Es un pequeño paso para el hombre; un gran salto para la humanidad"),
+  autor = c("Benito Juárez", "No tengo idea", "Texto genérico", "Neil Armstrong")
+)
+tabla_con_texto
+```
+
+```{r}
+tabla_con_texto |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(1, bold = T, border_right = T) |>
+  column_spec(2, width = "30em", background = "yellow") |>
+  column_spec(3, italic = T, background = "pink")
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(2, color = spec_color(mis_datos$Sepal.Length[1:10]),
+              link = "https://haozhu233.github.io/kableExtra/"
+              )
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |> 
+  column_spec(3, color = "white",
+              background = spec_color(mis_datos$Sepal.Width[1:10], end = 0.7)
+  )
+```
+
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(2, color = spec_color(mis_datos$Sepal.Length[1:10]),
+              link = "https://haozhu233.github.io/kableExtra/"
+              ) |> 
+  column_spec(3, color = "white",
+              background = spec_color(mis_datos$Sepal.Width[1:10],
+                                      end = 0.7, option = "inferno")
+              )
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(3:5, bold = T) |>
+  row_spec(2:6, bold = T, color = "white", background = "orange")
+```
+
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(3:5, bold = T) |>
+  row_spec(2:6, bold = T, color = "white", background = "purple") |>
+  row_spec(0, angle = -45)
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper() |>
+  add_header_above(c("Grupo 1" = 2, "Grupo 2" = 2, "Grupo 3" = 1))
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_classic() |>
+  add_header_above(c("Grupo 1" = 2, "Grupo 2" = 2, "Grupo 3" = 1)) |>
+  add_header_above(c("Grupo 4" = 4, "Group 5" = 1)) %>%
+  add_header_above(c("Grupo 6" = 5))
+```
+
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(3:5, bold = T) |>
+  row_spec(2:6, bold = T, color = "white", background = "orange") |>
+  pack_rows("Grupo 1", 2, 5) |>
+  pack_rows("Grupo 2", 6, 9)
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_classic(full_width = F) |>
+  footnote(general = "Tabla con comentarios varios.",
+           number = c("Footnote 1; ", "Footnote 2; "),
+           alphabet = c("Footnote A; ", "Footnote B; "),
+           symbol = c("Footnote Symbol 1; ", "Footnote Symbol 2")
+           )
+```
+  
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(3:5, bold = T) |>
+  row_spec(2:6, bold = T, color = "white", background = "orange") |>
+  scroll_box(width = "500px", height = "200px")
+```
+
+```{r}
+mis_datos |> head(n=10) |> kbl() |> kable_paper(full_width = F) |>
+  column_spec(3:5, bold = T) |>
+  row_spec(2:6, bold = T, color = "white", background = "orange") |>
+  scroll_box(width = "35%", height = "200px")
+```
+
+
+
+
