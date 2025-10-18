@@ -1,0 +1,198 @@
+---
+title: "Módulo 8"
+author: "Eduardo Martínez"
+date: "18 de octubre de 2025"
+output:
+  ioslides_presentation:
+    smaller: true
+---
+
+# Última sesión
+
+## Las librerías iniciales
+
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+library(readr)
+library(dplyr)
+```
+
+```{r echo=TRUE}
+datos <- readr::read_csv("https://cedricscherer.com/data/chicago-nmmaps-custom.csv")
+```
+
+---
+
+```{r echo=TRUE}
+head(datos)
+```
+
+---
+
+```{r}
+set.seed(2020)
+
+subconjunto <- datos |>
+  dplyr::group_by(season) |>
+  dplyr::sample_frac(0.01)
+```
+
+---
+
+```{r}
+subconjunto %>% head(n=5)
+```
+
+---
+
+```{r}
+subconjunto %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() +
+  geom_label(aes(label = season), hjust = .5, vjust = -.5) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  xlim(as.Date(c('1997-01-01', '2000-12-31'))) +
+  ylim(c(0, 90)) + theme_light() + theme(legend.position = "none")
+```
+
+---
+
+```{r}
+library(ggrepel)
+```
+
+
+```{r}
+subconjunto %>% ggplot(aes(x = date, y = temp, color = season)) + geom_point() +
+  geom_label_repel(aes(label = season), fontface = "bold") +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  labs(title = "Las etiquetas ayudan mucho", subtitle = "Pero no abusemos...") +
+  xlim(as.Date(c('1997-01-01', '2000-12-31'))) + ylim(c(0, 90)) + theme_light() +
+  theme(legend.position = "none")
+```
+
+---
+
+```{r}
+subconjunto %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(data = datos, size = .5) +
+  geom_point(aes(color = season), size = 1.5) +
+  geom_label_repel(aes(label = season, fill = season), color = "white", fontface = "bold",
+                   segment.color = "grey30") +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  labs(title = "Las etiquetas ayudan mucho",
+       subtitle = "Pero no abusemos...") + theme_light() + theme(legend.position = "none")
+```
+
+---
+
+```{r}
+subconjunto %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(data = datos, size = .5) +
+  geom_point(aes(color = season), size = 1.5) +
+  geom_label_repel(aes(label = season, fill = season), color = "white", fontface = "bold",
+                   segment.color = "grey30") + labs(x = "Año", y = "Temperatura (°F)") +
+  labs(title = "Las etiquetas ayudan mucho",
+       subtitle = "Pero no abusemos...") +
+  annotate(geom = "text", x = as.Date(c('1999-01-01')), y = 20, fontface = "bold", 
+                label = "Un mensajito especial") + theme_light() + theme(legend.position = "none")
+```
+
+---
+
+```{r}
+subconjunto %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(data = datos, size = .5) +
+  geom_point(aes(color = season), size = 1.5) +
+  geom_label_repel(aes(label = season, fill = season), color = "white", fontface = "bold",
+                   segment.color = "grey30") + labs(x = "Año", y = "Temperatura (°F)") +
+  labs(title = "Las etiquetas ayudan mucho", subtitle = "Pero no abusemos...") +
+  annotate(geom = "text", x = as.Date(c('2000-01-01')), y = 15, fontface = "bold", 
+                label = "Un mensajito especial") +
+  theme_light() +
+  theme(legend.position = "none")
+```
+
+---
+
+```{r}
+grafica <- datos %>% ggplot(aes(x = o3, y = temp)) +
+  geom_point() +
+  labs(x = "Ozono", y = "Temperatura (°F)") +
+  theme_light()
+
+grafica
+```
+
+---
+
+```{r}
+library(RColorBrewer)
+```
+
+
+```{r}
+datos %>% ggplot(aes(x = o3, y = temp, color = season)) +
+  geom_point() +
+  scale_color_brewer(palette = "Dark2") +
+  labs(x = "Ozono", y = "Temperatura (°F)") +
+  theme_light() +
+  theme(legend.position = "none")
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = o3, y = temp, color = season)) +
+  geom_point() +
+  scale_color_brewer(palette = "Pastel1") +
+  labs(x = "Ozono", y = "Temperatura (°F)") +
+  theme_light() + theme(legend.position = "none")
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = o3, y = temp, color = season)) +
+  geom_point() +
+  scale_color_brewer(palette = "Set2") +
+  labs(x = "Ozono", y = "Temperatura (°F)") +
+  theme_light() +
+  theme(legend.position = "none")
+```
+
+---
+
+```{r}
+grafica +
+  geom_text(aes(x = 35, y = 10,
+                label = "Mensaje importante"),
+            stat = "unique", family = "sans",
+            size = 7, color = "darkcyan")
+```
+
+---
+
+```{r}
+library(ggtext)
+
+grafica +
+  geom_richtext(aes(x = 10, y = 25, label = "Mensaje aún más importante"),
+                stat = "unique", angle = 30,
+                color = "white", fill = "steelblue",
+                label.color = NA, hjust = 0, vjust = 0, family = "sans")
+```
+
+---
+
+```{r}
+datos |>
+  dplyr::group_by(season) |>
+  dplyr::summarize(o3 = median(o3)) |>
+  ggplot(aes(x = season, y = o3)) +
+    geom_col(aes(fill = season), color = NA) +
+    labs(x = "", y = "Nivel de ozono mediano") +
+    coord_polar() +
+  theme_light() +
+    guides(fill = "none")
+```
+
