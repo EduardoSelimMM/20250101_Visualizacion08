@@ -1,0 +1,377 @@
+---
+title: "Módulo 8"
+author: "Eduardo Martínez"
+date: "18 de octubre de 2025"
+output:
+  ioslides_presentation:
+    smaller: true
+---
+
+## Librerías para visualización
+
++ [R Base](https://rstudio-pubs-static.s3.amazonaws.com/7953_4e3efd5b9415444ca065b1167862c349.html)
++ [ggplot2](https://ggplot2.tidyverse.org/)
++ [plotly](https://plot.ly/r/)
++ [lattice](http://lattice.r-forge.r-project.org/Vignettes/src/lattice-intro/lattice-intro.pdf)
++ [rCharts](https://ramnathv.github.io/rCharts/)
++ [corrplot](https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html)
+
+---
+
++ [rbokeh](http://hafen.github.io/rbokeh/index.html)
++ [leaflet](https://rstudio.github.io/leaflet/)
++ [highcharter](http://jkunst.com/highcharter/)
++ [ggiraph](https://davidgohel.github.io/ggiraph/index.html)
++ [gganimate](https://github.com/thomasp85/gganimate)
++ [gghighlight](https://cran.r-project.org/web/packages/gghighlight/vignettes/gghighlight.html)
++ [dygraphs](https://rstudio.github.io/dygraphs/index.html)
++ [trelliscopejs](https://github.com/hafen/trelliscopejs)
++ [esquisse](https://github.com/dreamRs/esquisse)
+
+## La interacción siempre vende
+
++ [Shiny](https://shiny.rstudio.com/gallery/)
++ [Shiny](https://shiny.rstudio.com/gallery/see-more.html)
++ [Shiny dashboards](https://rstudio.github.io/shinydashboard/index.html)
++ [Flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/examples.html)
+
+# Empecemos
+
+## Las librerías iniciales
+
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+library(readr)
+library(dplyr)
+```
+
+```{r echo=TRUE}
+datos <- readr::read_csv("https://cedricscherer.com/data/chicago-nmmaps-custom.csv")
+```
+
+---
+
+```{r echo=TRUE}
+summary(datos)
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp))
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_line()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_line() + geom_point()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "pink", shape = "diamond", size = 2)
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3)
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3) +
+  theme_bw()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_dark()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_light() +
+  theme(axis.title = element_text(size = 15,
+                                  color = "purple", face = "italic"))
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_light() +
+  theme(axis.title.x = element_text(color = "sienna", size = 15, face = "italic"),
+        axis.title.y = element_text(color = "orangered", size = 15))
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_light() +
+  theme(axis.title.x = element_text(color = "sienna", size = 15, face = "italic"),
+        axis.title.y = element_text(color = "orangered", size = 15),
+        axis.text = element_text(color = "dodgerblue", size = 12),
+        axis.text.x = element_text(face = "italic")
+        )
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_light() +
+  theme(axis.title.x = element_text(color = "sienna", size = 15, face = "italic"),
+        axis.title.y = element_text(color = "orangered", size = 15),
+        axis.text = element_text(color = "dodgerblue", size = 12),
+        axis.text.x = element_text(angle = 50, vjust = 1, hjust = 1, size = 12)
+        )
+```
+
+## Juntemos gráficas
+
+```{r}
+graf1 <- datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "red", shape = "diamond", size = 2) +
+  geom_line(color = "blue", linetype = "dotted", lwd = .3) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_light()
+
+graf2 <- datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_point(color = "purple", shape = "diamond", size = 2) +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_gray()
+```
+
+---
+
+```{r}
+library(patchwork)
+```
+
+```{r}
+graf1 + graf2
+```
+
+---
+
+```{r}
+graf3 <- datos %>% ggplot(aes(x = date, y = temp)) +
+  geom_line(color = "orange") +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal()
+
+(graf1 | graf2 ) / graf3
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp,
+                     color = season, shape = season)) +
+  geom_point() +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() +
+  labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal() +
+  theme(legend.position = c(.15, .15),
+        legend.background = element_rect(fill = "transparent"))
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)", color = NULL) +
+  theme_minimal() +
+  theme(legend.position = c(.15, .15),
+        legend.background = element_rect(fill = "transparent"))
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  theme_minimal() +
+  theme(legend.title = element_text(family = "sans", color = "red",
+                                    size = 14, face = "bold"))
+```
+
+---
+
+```{r}
+graf1 <- datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") 
+
+graf1
+```
+
+---
+
+```{r}
+graf1 +  scale_color_discrete(
+    name = "Estaciones:",
+    labels = c("Mar—May", "Jun—Ago", "Sep—Nov", "Dic—Feb")
+  ) + theme_minimal()
+
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  geom_rug() +
+  theme_minimal()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  facet_wrap(~ year) +
+  theme_minimal()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  facet_wrap(~ year, nrow = 1) +
+  theme_minimal()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  facet_wrap(~ year, nrow = 2, scales = "free") +
+  theme_minimal()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  facet_wrap(year ~ season, nrow = 4) +
+  theme_minimal()
+```
+
+---
+
+```{r}
+datos %>% ggplot(aes(x = date, y = temp, color = season)) +
+  geom_point() + labs(x = "Año", y = "Temperatura (°F)") +
+  facet_wrap(year ~ season, nrow = 4, scales = "free_x") +
+  theme_minimal()
+```
+
+---
+
+```{r}
+datos |>
+  dplyr::group_by(season) |>
+  dplyr::summarize(o3 = median(o3)) |>
+  ggplot(aes(x = season, y = o3)) +
+    geom_col(aes(fill = season), color = NA) +
+    labs(x = "", y = "Nivel de ozono mediano") +
+    coord_polar() +
+  theme_light() +
+    guides(fill = "none")
+```
+
+
+
