@@ -1,0 +1,281 @@
+---
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+ - "Clauidia Juarez"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+title: "Mi fabuloso reporte"
+---
+
+```{r}
+library(rmdformats)
+library(prettydoc)
+library(hrbrthemes)
+library(tint)
+library(tufte)
+
+library(ggplot2)
+```
+
+
+# Mi primera sección
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+```{r}
+library(faraway)
+data("worldcup")
+```
+
+```{r}
+worldcup |> ggplot() + 
+  geom_point(aes(x = Time, y = Passes,
+                 color = Position, size = Shots))
+```
+
+
+# Mi segunda sección
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+# Mi tercera sección
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+La configuración básica:
+
+```
+title: "Mi fabuloso reporte"
+author: "Eduardo Martínez"
+date: "23 de octubre de 2025"
+output: "html_document"
+```
+
+Le agregamos un subtítulo:
+
+```
+title: "Mi fabuloso reporte"
+subtitle: "Podemos agregarle un subtítulo"
+author: "Eduardo Martínez"
+date: "23 de octubre de 2025"
+output: "html_document"
+```
+
+Le damos la posibilidad de más autores
+
+```
+title: "Mi fabuloso reporte"
+author: ["Eduardo Martínez", "Eduardo Mayorga"]
+date: "23 de octubre de 2025"
+output: "html_document"
+```
+
+Otra forma de agregar personas autoras es:
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+ - "Claudia Juárez"
+date: "23 de octubre de 2025"
+output: "html_document"
+```
+
+OJO: Hay que tener cuidado con la identación. Debe haber un espacio antes del `-` y otro espacio después del `-`
+
+Le podemos decir, que use la fecha de ejecución del reporte como fecha del reporte impreso mediante `r Sys.Date()`
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output: "html_document"
+```
+
+Vamos a hacer algunas cosillas más visuales
+
+Le agregaremos una tabla de contenidos (Table Of Contents)
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+```
+
+Haremos la tabla de contenidos flotante
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+    toc_float: true
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: true
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: cerulean
+    toc: yes
+    toc_float:
+      collapsed: true
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: united
+    highlight: textmate
+    toc: yes
+    toc_float:
+      collapsed: true
+```
+
+https://rpubs.com/ranydc/rmarkdown_themes
+
+```
+theme: journal
+```
+```
+theme: flatly
+```
+
+```
+theme: united
+```
+
+```
+theme: cosmo
+```
+
+```
+theme: simplex
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output: 
+  prettydoc::html_pretty:
+    theme: cayman
+    toc: yes
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output: 
+  prettydoc::html_pretty:
+    theme: hpstr
+    toc: yes
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    code_folding: show
+    theme: cerulean
+    toc: yes
+    toc_float:
+      collapsed: true
+```
+
+```
+title: "Mi fabuloso reporte"
+author: 
+ - "Eduardo Martínez"
+ - "Eduardo Mayorga"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    code_folding: hide
+    theme: cerulean
+    toc: yes
+    toc_float:
+      collapsed: true
+```
+
+https://bookdown.org/yihui/rmarkdown/rmdformats.html
+
+```
+title: "Mi fabuloso reporte"
+subtitle: "Podemos agregarle un subtítulo"
+author: "Eduardo Martínez"
+date: "23 de octubre de 2025"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 2
+abstract: "YAML is a human-readable and easy to write language to define data structures."
+keywords: ["YAML", "Rmd"]
+subject: "Programación"
+description: "Rmd makes it possible to use a YAML header to specify certain parameters right at the beginning of the document."
+category: 
+ - "Rmd"
+ - "Programación"
+lang: "en-US"
+```
+
